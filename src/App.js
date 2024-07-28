@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import Home from "./Home";
 import NavBar from "./NavBar";
@@ -9,14 +9,18 @@ import SignUpForm from "./SignUpForm"
 import MovieDetails from "./MovieDetails";
 import Profile from "./Profile";
 import ReviewForm from "./ReviewForm";
-import Search from "./Search";
+import Search from "./Search.js";
+import OmdbApi from './api.js';
 
 
 function App() {
+
+
   return (
     
     <div className="App">
       <NavBar />
+      <Router>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<ExplorePage />} />
@@ -28,6 +32,7 @@ function App() {
             <Route path="/search" element={<Search />} />
 
         </Routes>
+        </Router>
     </div>
   );
 }

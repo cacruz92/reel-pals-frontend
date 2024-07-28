@@ -1,14 +1,18 @@
 import React from "react";
 import UserContext from "./UserContext";
-import {NavLink} from "react-router-dom";
+import { NavLink, BrowserRouter as Router } from 'react-router-dom';
 import {Navbar, Nav, NavItem, Container} from "reactstrap";
+import "./NavBar.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilm } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
 return (
+    <Router>
     <nav className="NavBar">
         <div className="nav-container">
             <NavLink exact to="/" className="navbar-brand">
-              Reel Pals
+            Reel Pals <FontAwesomeIcon icon={faFilm} /> 
             </NavLink>
               <div className="nav-links right-align">
               {/* {currentUser ? ( */}
@@ -29,6 +33,7 @@ return (
               </div>
             </div>
         </nav>
+        </Router>
 )
 }
 
