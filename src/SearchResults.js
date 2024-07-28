@@ -33,17 +33,17 @@ const SearchResults = ({ results, error }) => {
                     <Card key={movie.imdbID} className="mb-3">
                         <CardBody>
                             <CardTitle>
-                                <Link 
-                                to={`/movies/${movie.imdbID}`}
-                                className="card-title a">
+                               
                                     <ListGroupItem className="list-group-item">
                                         {movie.Title}
                                         ({movie.Year})
                                     </ListGroupItem>
-                                </Link>
+                                
                             </CardTitle> 
                             <CardText>
-                                <img src={movie.Poster} alt={`${movie.Title}'s poster`}></img> 
+                            <Link 
+                                to={`/movie/${movie.imdbID}`}>
+                                    <img src={movie.Poster} alt={`${movie.Title}'s poster`}></img> </Link>
                                 </CardText>   
                         </CardBody>
                     </Card>

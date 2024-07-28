@@ -27,8 +27,8 @@ function App() {
             <Route path="/users/:username" element={ <Profile />} />
             <Route path="/login" element={<LoginForm />}/>
             <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/movie/:movieId" element={<MovieDetails />} />
-            <Route path="/movie/:movieId/review" element={<ReviewForm />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
+            <Route path="/movie/:id/review" element={<ReviewForm />} />
             <Route path="/search" element={<Search />} />
 
         </Routes>
