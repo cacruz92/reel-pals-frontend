@@ -1,0 +1,18 @@
+import React from "react";
+import SearchBar from "./SearchBar";
+import SearchResults from "./SearchResults";
+
+const Search = () => {
+return(
+    <>
+    <div>
+        <SearchBar />
+    </div>
+    <div>
+        <SearchResults />
+    </div>
+    </>
+)
+}
+
+export default Search;
