@@ -32,6 +32,10 @@ class OmdbApi {
     return await this.request({s: title, y: year, type: "movie"});
   }
 
+  static async getMovieDetails(id){
+    return this.request({ i: id, plot:"full"})
+  }
+
 }
 
 
