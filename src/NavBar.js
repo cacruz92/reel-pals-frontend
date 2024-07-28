@@ -11,7 +11,7 @@ return (
     <Router>
     <nav className="NavBar">
         <div className="nav-container">
-            <NavLink exact to="/" className="navbar-brand">
+            <NavLink to="/" className="navbar-brand">
             Reel Pals <FontAwesomeIcon icon={faFilm} /> 
             </NavLink>
               <div className="nav-links right-align">

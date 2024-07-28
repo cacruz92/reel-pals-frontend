@@ -23,7 +23,7 @@ const Search = () => {
         setSearchError("An error occurred while searching. Please try again.");
       }
     }
-
+    console.log(searchResults)
 return(
     <>
     <div>
