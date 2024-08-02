@@ -40,16 +40,11 @@ const SignupForm = ({handleUserAuth}) => {
     // submit the form if the form is correct, otherwise alert them it's not
     async function handleSubmit(e) {
         e.preventDefault();
-        try{
-            const user = await OmdbApi.register(formData);
-            console.log("Registration successful", user);
-            if (user.token) {
-                setToken(user.token);
-            }
-            navigate("/");
-        }catch(e){
-            console.error("Registration failed:", e);
-            setFormErrors([e.message])
+        const result = await handleUserAuth(formData, 'register');
+        if (result.success) {
+          navigate("/");
+        } else {
+          setFormErrors(result.errors);
         }
       }
 

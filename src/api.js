@@ -71,7 +71,7 @@ class OmdbApi {
     /** Login user */
   
     static async login(userData){
-      let res = await this.authRequest("auth/token", userData,"post")
+      let res = await this.authRequest("users/login", userData,"post")
       this.token = res.token;
       return res.token;
     }
