@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-// import useLocalStorageState from './hooks/useLocalStorageState';
-import {useNavigate} from "react-router-dom"
+import useLocalStorageState from './hooks/useLocalStorageState';
+import {useNavigate} from "react-router-dom";
+import OmdbApi from "./api";
 import {
     Card,
     CardBody,
@@ -10,7 +11,7 @@ import {
     ListGroupItem
   } from "reactstrap";
 
-const SignupForm = () => {
+const SignupForm = ({handleUserAuth}) => {
     const navigate = useNavigate();
     const INITIAL_STATE = {
         username: "",
@@ -18,14 +19,14 @@ const SignupForm = () => {
         firstName: "",
         lastName: "",
         email: "",
-        birthday: "",
+        birthday: ""
     };
 
     // use state to control the form
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [formErrors, setFormErrors] = useState([])
 
-    // const[token, setToken] = useLocalStorageState('token', '')
+    const[token, setToken] = useLocalStorageState('token', '')
 
     // allow the changes to the form to be entered into state 
     const handleChange = (e) => {
@@ -39,13 +40,17 @@ const SignupForm = () => {
     // submit the form if the form is correct, otherwise alert them it's not
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log("submitted form")
-        // const result = await handleUserAuth(formData, 'register');
-        // if (result.success) {
-        //   navigate("/");
-        // } else {
-        //   setFormErrors(result.errors);
-        // }
+        try{
+            const user = await OmdbApi.register(formData);
+            console.log("Registration successful", user);
+            if (user.token) {
+                setToken(user.token);
+            }
+            navigate("/");
+        }catch(e){
+            console.error("Registration failed:", e);
+            setFormErrors([e.message])
+        }
       }
 
     return(
