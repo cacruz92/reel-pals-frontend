@@ -184,6 +184,22 @@ class OmdbApi {
       let res = await this.authRequest(`/reviews/${reviewId}/comments`);
       return res;
     }
+
+    //Like methods
+
+    /** Add a like to a review */
+
+    static async addLike(reviewId, userId){
+      let res = await this.authRequest(`/reviews/${reviewId}/like`, { userId }, "post");
+      return res;
+    }
+
+    /** Remove a like from a review */
+
+    static async removeLike(reviewId, userId){
+      let res = await this.authRequest(`/reviews/${reviewId}/like`, { userId }, "delete");
+      return res;
+    }
 }
 
 
