@@ -97,6 +97,36 @@ class OmdbApi {
       return res;
     }
 
+    //Follow methods
+
+    /** Follow a user */
+    
+    static async followUser(followerUsername, followedUsername){
+      let res = await this.authRequest(`users/${followedUsername}/follow`, {followerUsername}, "post");
+      return res;
+    }
+
+    /** Unfollow a user */
+
+    static async unfollowUser(followerUsername, followedUsername){
+      let res = await this.authRequest(`users/${followedUsername}/follow`, {followerUsername}, "post");
+      return res;
+    }
+
+    /** Get a user's followers */
+
+    static async getUserFollowers(username){
+      let res = await this.authRequest(`users/${username}/followers`);
+      return res;
+    }
+
+    /** Gets users followed by user */
+
+    static async getUserFollowing(username){
+      let res = await this.authRequest(`users/${username}/following`);
+      return res;
+    }
+
     // Review methods
 
     /** Add a new review */
@@ -109,49 +139,49 @@ class OmdbApi {
     /** Add a review */
 
     static async editReview(reviewData){
-      let res = await this.authRequest(`/reviews/${reviewId}`, reviewData, "patch");
+      let res = await this.authRequest(`reviews/${reviewId}`, reviewData, "patch");
       return res;
     }
 
     /** Delete a review */
 
     static async removeReview(reviewId){
-      let res = await this.authRequest(`/${reviewId}`, {}, "delete")
+      let res = await this.authRequest(`${reviewId}`, {}, "delete")
       return res;
     }
 
     /** Find all reviews made by a specific user */
     
     static async findUserReviews(userId){
-      let res = await this.authRequest(`/reviews/${userId}`)
+      let res = await this.authRequest(`reviews/${userId}`)
       return res;
     }
 
     /** Add tag to a review */
 
     static async addTag(reviewId, tagName){
-      let res = await this.authRequest(`/reviews/${reviewId}/tag`, {tagName}, "post")
+      let res = await this.authRequest(`reviews/${reviewId}/tag`, {tagName}, "post")
       return res;
     }
 
     /** Remove a tag from a review */
 
     static async removeTag(reviewId, tagName){
-      let res = await this.authRequest(`/reviews/${reviewId}/tag/${tagName}`, {}, "delete");
+      let res = await this.authRequest(`reviews/${reviewId}/tag/${tagName}`, {}, "delete");
       return res;
     }  
 
     /** Get tags associated with a specific review */
 
     static async getTagsByReview(reviewId){
-      let res = await this.authRequest(`/reviews/${reviewId}/`)
+      let res = await this.authRequest(`reviews/${reviewId}/`)
       return res;
     }
 
     /** Get reviews associated with a particular tag */
 
     static async getReviewByTags(tagName){
-      let res = await this.authRequest(`/reviews/tags/${tagName}`)
+      let res = await this.authRequest(`reviews/tags/${tagName}`)
       return res;
     }
 
@@ -160,28 +190,28 @@ class OmdbApi {
     /** Add a comment */
 
     static async addComment(reviewId, userId, body){
-      let res = await this.authRequest(`/reviews/${reviewId}/comments/add`, {userId, body}, "post");
+      let res = await this.authRequest(`reviews/${reviewId}/comments/add`, {userId, body}, "post");
       return res;
     }
 
     /** Edit a comment */
 
     static async editComment(reviewId, commentId, data){
-      let res = await this.authRequest(`/reviews/${reviewId}/comments/${commentId}`, data, "patch");
+      let res = await this.authRequest(`reviews/${reviewId}/comments/${commentId}`, data, "patch");
       return res;
     }
 
     /** Delete a comment */
 
     static async deleteComment(reviewId, commentId){
-      let res = await this.authRequest(`/reviews/${reviewId}/comments/${commentId}`, {}, "delete");
+      let res = await this.authRequest(`reviews/${reviewId}/comments/${commentId}`, {}, "delete");
       return res;
     }
 
     /** Find all comments made on a specific review */
 
     static async findReviewComments(reviewId){
-      let res = await this.authRequest(`/reviews/${reviewId}/comments`);
+      let res = await this.authRequest(`reviews/${reviewId}/comments`);
       return res;
     }
 
@@ -190,14 +220,30 @@ class OmdbApi {
     /** Add a like to a review */
 
     static async addLike(reviewId, userId){
-      let res = await this.authRequest(`/reviews/${reviewId}/like`, { userId }, "post");
+      let res = await this.authRequest(`reviews/${reviewId}/like`, { userId }, "post");
       return res;
     }
 
     /** Remove a like from a review */
 
     static async removeLike(reviewId, userId){
-      let res = await this.authRequest(`/reviews/${reviewId}/like`, { userId }, "delete");
+      let res = await this.authRequest(`reviews/${reviewId}/like`, { userId }, "delete");
+      return res;
+    }
+
+    //Tag methods
+
+    /** Add a tag to the system */
+
+    static async addTagToDb(name){
+      let res = await this.authRequest(`tags/add`, {name}, "post");
+      return res;
+    }
+
+    /** Find all tags in the Database */
+
+    static async findAllTags(){
+      let res = await this.authRequest(`tags/all`);
       return res;
     }
 }
