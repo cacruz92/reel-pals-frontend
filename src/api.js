@@ -138,7 +138,7 @@ class OmdbApi {
 
     /** Add a review */
 
-    static async editReview(reviewData){
+    static async editReview(reviewId, reviewData){
       let res = await this.authRequest(`reviews/${reviewId}`, reviewData, "patch");
       return res;
     }
