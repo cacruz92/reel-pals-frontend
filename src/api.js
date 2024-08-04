@@ -97,7 +97,7 @@ class OmdbApi {
       return res;
     }
 
-    // review methods
+    // Review methods
 
     /** Add a new review */
 
@@ -153,6 +153,14 @@ class OmdbApi {
     static async getReviewByTags(tagName){
       let res = await this.authRequest(`/reviews/tags/${tagName}`)
       return res;
+    }
+
+    //Comment methods
+
+    /** Add a comment */
+
+    static async addComment(commentData){
+      let res = await this.authRequest(``)
     }
 
 }
