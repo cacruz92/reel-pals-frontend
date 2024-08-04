@@ -59,7 +59,7 @@ class OmdbApi {
     return this.omdbRequest({ i: id, plot:"full"})
   }
 
-  // user methods
+  // User methods
     /** Register a new user */
 
     static async register(userData){
@@ -79,7 +79,80 @@ class OmdbApi {
     /** Get current user */
   
     static async getCurrentUser(username){
-      return this.authRequest(`users/$username`);
+      let res = await this.authRequest(`users/${username}`);
+      return res;
+    }
+
+    /** Update user */
+  
+    static async updateUserProfile(username, userData){
+      let res = await  this.authRequest(`users/${username}`, userData, "patch");
+      return res;
+    }
+
+    /** Delete user */
+  
+    static async removeUser(username){
+      let res = await this.authRequest(`users/${username}`, {}, "delete");
+      return res;
+    }
+
+    // review methods
+
+    /** Add a new review */
+
+    static async addReview(reviewData){
+      let res = await this.authRequest("reviews/add", reviewData, "post")
+      return res;
+    }    
+
+    /** Add a review */
+
+    static async editReview(reviewData){
+      let res = await this.authRequest(`/reviews/${reviewId}`, reviewData, "patch");
+      return res;
+    }
+
+    /** Delete a review */
+
+    static async removeReview(reviewId){
+      let res = await this.authRequest(`/${reviewId}`, {}, "delete")
+      return res;
+    }
+
+    /** Find all reviews made by a specific user */
+    
+    static async findUserReviews(userId){
+      let res = await this.authRequest(`/reviews/${userId}`)
+      return res;
+    }
+
+    /** Add tag to a review */
+
+    static async addTag(reviewId, tagName){
+      let res = await this.authRequest(`/reviews/${reviewId}/tag`, {tagName}, "post")
+      return res;
+    }
+
+    /** Remove a tag from a review */
+
+    static async removeTag(reviewId, tagName){
+      let res = await this.authRequest(`/reviews/${reviewId}/tag/${tagName}`, {}, "delete");
+      return res;
+    }  
+
+    /** Get tags associated with a specific review */
+
+    static async getTagsByReview(reviewId){
+      let res = await this.authRequest(`/reviews/${reviewId}/`)
+      return res;
+    }
+
+    /** Get reviews associated with a particular tag */
+
+    static async getReviewByTags(tagName){
+      let res = await this.authRequest(`/reviews/tags/${tagName}`)
+      return res;
     }
 
 }
