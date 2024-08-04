@@ -159,10 +159,31 @@ class OmdbApi {
 
     /** Add a comment */
 
-    static async addComment(commentData){
-      let res = await this.authRequest(``)
+    static async addComment(reviewId, userId, body){
+      let res = await this.authRequest(`/reviews/${reviewId}/comments/add`, {userId, body}, "post");
+      return res;
     }
 
+    /** Edit a comment */
+
+    static async editComment(reviewId, commentId, data){
+      let res = await this.authRequest(`/reviews/${reviewId}/comments/${commentId}`, data, "patch");
+      return res;
+    }
+
+    /** Delete a comment */
+
+    static async deleteComment(reviewId, commentId){
+      let res = await this.authRequest(`/reviews/${reviewId}/comments/${commentId}`, {}, "delete");
+      return res;
+    }
+
+    /** Find all comments made on a specific review */
+
+    static async findReviewComments(reviewId){
+      let res = await this.authRequest(`/reviews/${reviewId}/comments`);
+      return res;
+    }
 }
 
 
