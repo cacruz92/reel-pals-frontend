@@ -49,15 +49,33 @@ class OmdbApi {
   }
 
 
-  // Individual API routes
+  // Movie methods
 
   static async searchMovies(title, year = ""){
-    return await this.omdbRequest({s: title, y: year, type: "movie"});
+    const result = await this.omdbRequest({s: title, y: year, type: "movie"});
+    const moviesWithDetails = await Promise.all(
+      result.Search.map(movie => this.getMovieDetails(movie.imdbID))
+    );
+    return moviesWithDetails;
   }
 
   static async getMovieDetails(id){
-    return this.omdbRequest({ i: id, plot:"full"})
+    const movieData = await this.omdbRequest({ i: id, plot:"full"});
+    console.log("MOVIE DATA TO BE ADDED:", movieData);
+    await this.addMovie(movieData);
+    return movieData
   }
+
+  static async addMovie(movieData){
+    try{
+      let res = await this.authRequest(`movies/add`, movieData, "post");
+      return res;
+    }catch(e){
+        console.error("Error adding movie:", e);
+      throw e;
+    }
+  }
+
 
   // User methods
     /** Register a new user */

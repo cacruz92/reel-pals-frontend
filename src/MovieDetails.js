@@ -24,6 +24,7 @@ const MovieDetails = () => {
             } catch(e){
                 console.error("Error fetching movie details:", e);
                 setError("Failed to load movie details. Please try again.");
+                setIsLoading(false);
             }
         };
         fetchMovieDetails();
