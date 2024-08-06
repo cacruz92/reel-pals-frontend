@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const BASE_URL = "http://www.omdbapi.com/";
 const API_KEY = "3ceade25";
@@ -31,8 +32,9 @@ class OmdbApi {
   static async authRequest(endpoint, data = {}, method = "get") {
     console.debug("Auth API Call:", endpoint, data, method);
 
-      const url = `${AUTH_BASE_URL}${endpoint}`;
-      const headers = { Authorization: `Bearer ${OmdbApi.token}`};
+    const url = `${AUTH_BASE_URL}${endpoint}`;
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}`};
 
     try {
       const response = await axios({
@@ -82,7 +84,7 @@ class OmdbApi {
     static async register(userData){
       let res = await this.authRequest("users/register", userData, "post")
       this.token = res.token;
-      return res.token;
+      return {token: res.token, user: res.user };
     }
   
     /** Login user */
@@ -90,12 +92,14 @@ class OmdbApi {
     static async login(userData){
       let res = await this.authRequest("users/login", userData,"post")
       this.token = res.token;
-      return res.token;
+      return {token: res.token, user: res.user };
     }
 
     /** Get current user */
   
-    static async getCurrentUser(username){
+    static async getCurrentUser(token){
+      const decodedToken = jwtDecode(token);
+      const username = decodedToken.username;
       let res = await this.authRequest(`users/${username}`);
       return res;
     }

@@ -22,7 +22,7 @@ const LoginForm = ({handleUserAuth}) => {
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [formErrors, setFormErrors] = useState([]);
 
-    const[token, setToken] = useLocalStorageState('token', '')
+    const [storedUsername, setStoredUsername] = useLocalStorageState('username','');
 
     // allow the changes to the form to be entered into state 
     const handleChange = (e) => {
@@ -37,10 +37,11 @@ const LoginForm = ({handleUserAuth}) => {
     async function handleSubmit(e) {
         e.preventDefault();
         const result = await handleUserAuth(formData, 'login');
+        console.log("RESULT FROM LOGIN", result)
         if (result.success) {
-          navigate("/");
+            setStoredUsername(formData.username);
         } else {
-          setFormErrors(result.errors);
+          setFormErrors(result.errors || ["Login failed"]);
         }
       }
 
