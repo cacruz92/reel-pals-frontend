@@ -18,12 +18,11 @@ const MovieDetails = () => {
         const fetchMovieDetails = async () => {
             try{
                 const result = await OmdbApi.getMovieDetails(id);
-                console.log(result);
                 setMovie(result);
                 setIsLoading(false);
             } catch(e){
                 console.error("Error fetching movie details:", e);
-                setError("Failed to load movie details. Please try again.");
+                setError(`Failed to load movie details. Please try again. ${e.message}`);
                 setIsLoading(false);
             }
         };

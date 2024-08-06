@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://www.omdbapi.com/";
 const API_KEY = "3ceade25";
-const AUTH_BASE_URL = "http://localhost:3001";
+const AUTH_BASE_URL = "http://localhost:3001/";
 
 
 /** API Class.
@@ -21,9 +21,9 @@ class OmdbApi {
 
     try {
       return (await axios.get( BASE_URL, { params })).data;
-    } catch (err) {
-      console.error("Omdb API Error:", err.response);
-      let message = err.response.data.Error || "An error occurred";
+    } catch (e) {
+      console.error("Omdb API Error:", e.response);
+      let message = e.response.data.Error || "An error occurred";
       throw Array.isArray(message) ? message : [message];
     }
   }
@@ -31,16 +31,19 @@ class OmdbApi {
   static async authRequest(endpoint, data = {}, method = "get") {
     console.debug("Auth API Call:", endpoint, data, method);
 
-      const url = `${AUTH_BASE_URL}/${endpoint}`;
+      const url = `${AUTH_BASE_URL}${endpoint}`;
       const headers = { Authorization: `Bearer ${OmdbApi.token}`};
 
     try {
-      return (await axios({
+      const response = await axios({
         url,
         method,
         data,
         headers
-      })).data;
+      });
+
+      return response.data;
+
     } catch (err) {
       console.error("Auth API Error:", err.response);
       let message = err.response.data.Error || "An error occurred";
@@ -53,15 +56,11 @@ class OmdbApi {
 
   static async searchMovies(title, year = ""){
     const result = await this.omdbRequest({s: title, y: year, type: "movie"});
-    const moviesWithDetails = await Promise.all(
-      result.Search.map(movie => this.getMovieDetails(movie.imdbID))
-    );
-    return moviesWithDetails;
+    return result;
   }
 
   static async getMovieDetails(id){
     const movieData = await this.omdbRequest({ i: id, plot:"full"});
-    console.log("MOVIE DATA TO BE ADDED:", movieData);
     await this.addMovie(movieData);
     return movieData
   }
@@ -71,7 +70,7 @@ class OmdbApi {
       let res = await this.authRequest(`movies/add`, movieData, "post");
       return res;
     }catch(e){
-        console.error("Error adding movie:", e);
+      console.error("Error adding movie:", e);
       throw e;
     }
   }

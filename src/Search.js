@@ -10,20 +10,19 @@ const Search = () => {
     const handleSearch  = async (searchTerm, year = "") => {
       try{
         const results = await OmdbApi.searchMovies(searchTerm, year);
-        if(results.Response === "True"){
-            console.log(results.Search)
+        if(results){
           setSearchResults(results.Search);
           setSearchError(null);
         } else {
           setSearchResults([]);
-          setSearchError(results.Error);
+          setSearchError("No results found");
         }
       } catch (e) {
         console.error("Error searching movies:", e);
         setSearchError("An error occurred while searching. Please try again.");
       }
     }
-    console.log(searchResults)
+    
 return(
     <>
     <div>

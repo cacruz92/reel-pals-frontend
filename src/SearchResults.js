@@ -10,16 +10,12 @@ import {
   } from "reactstrap";
 
 const SearchResults = ({ results, error }) => {
-    console.log(results)
     if(error){
         return (
             <div> <h1> {error} </h1></div>
         )
     }
-    if(!results){
-        return(<div><h1>  </h1></div>)
-    }
-    if(results.length === 0){
+    if(!results || results.length === 0){
         return(
             <div><h1> No results found.</h1></div>
         )
