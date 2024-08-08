@@ -18,7 +18,7 @@ const NavBar = () => {
                 <div className="nav-links right-align">
                 {currentUser ? (
                   <>
-                      <NavLink to="/" className="nav-link"> Explore </NavLink>
+                      <NavLink to="/search" className="nav-link"> Explore </NavLink>
                       <NavLink to="/" className="nav-link"> Reviews </NavLink>
                       <NavLink to="/" className="nav-link"> Profile </NavLink>
                       <NavLink to="/" 

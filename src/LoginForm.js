@@ -39,7 +39,7 @@ const LoginForm = ({handleUserAuth}) => {
         const result = await handleUserAuth(formData, 'login');
         console.log("RESULT FROM LOGIN", result)
         if (result.success) {
-            setStoredUsername(formData.username);
+            console.log("success")
         } else {
           setFormErrors(result.errors || ["Login failed"]);
         }

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
-import OmdbApi from "./api"
+import OmdbApi from "./api";
+import ReviewForm from "./ReviewForm";
 import {
     Card,
     CardBody,
@@ -37,6 +38,7 @@ const MovieDetails = () => {
     }
 
     return(
+        <>
         <div>
             <section className="col-md-4">
                     <Card key={movie.imdbID} className="mb-3">
@@ -57,7 +59,11 @@ const MovieDetails = () => {
                     </Card>
                     
             </section>
-        </div>    
+        </div>
+        <div>
+            <ReviewForm movie_imdb_id={movie.imdbID}/>
+        </div>
+        </>    
     )
 
 }

@@ -72,14 +72,12 @@ function App() {
       
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/users/:username" element={ <Profile />} />
             <Route path="/login" element={<LoginForm handleUserAuth={handleUserAuth} />} />
             <Route path="/signup" element={<SignUpForm handleUserAuth={handleUserAuth} />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/movie/:id/review" element={<ReviewForm />} />
-            <Route path="/search" element={<Search />} />
-
         </Routes>
     </div>
   );

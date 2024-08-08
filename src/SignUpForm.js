@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import useLocalStorageState from './hooks/useLocalStorageState';
 import {useNavigate} from "react-router-dom";
 import OmdbApi from "./api";
 import {
@@ -26,7 +25,6 @@ const SignupForm = ({handleUserAuth}) => {
     const [formData, setFormData] = useState(INITIAL_STATE);
     const [formErrors, setFormErrors] = useState([])
 
-    const [storedUsername, setStoredUsername] = useLocalStorageState('username','');
 
     // allow the changes to the form to be entered into state 
     const handleChange = (e) => {
@@ -42,7 +40,7 @@ const SignupForm = ({handleUserAuth}) => {
         e.preventDefault();
         const result = await handleUserAuth(formData, 'register');
         if (result.success) {
-            setStoredUsername(formData.username);
+            console.log("success")
         } else {
           setFormErrors(result.errors || ["Login failed"]);
         }
