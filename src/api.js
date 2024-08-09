@@ -137,7 +137,7 @@ class OmdbApi {
     /** Unfollow a user */
 
     static async unfollowUser(followerUsername, followedUsername){
-      let res = await this.authRequest(`users/${followedUsername}/follow`, {followerUsername}, "post");
+      let res = await this.authRequest(`users/${followedUsername}/follow`, {followerUsername}, "delete");
       return res;
     }
 

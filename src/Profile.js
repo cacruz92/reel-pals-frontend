@@ -20,19 +20,22 @@ const Profile = () => {
     const [reviews, setReviews] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
                 const fetchReviews = await OmdbApi.findUserReviews(username);
-                console.log("Fetched reviews:", fetchReviews);
                 setReviews(fetchReviews.reviews || []);
-                console.log("REVIEWS:", reviews)
 
                 const fetchProfileInfo = await OmdbApi.getUserProfile(username);
-                console.log("Fetched profile info:", fetchProfileInfo);
                 setUserInfo(fetchProfileInfo.user);
-                console.log("User INFO:", fetchProfileInfo)
+                
+                if(currentUser){
+                    const userFollowing = await OmdbApi.getUserFollowing(currentUser.username);
+                    setIsFollowing(userFollowing.following.some(user => user.username === username));
+                }
+
                 setIsLoading(false);
             } catch (e) {
                 console.error("Error fetching user info:", e);
@@ -40,7 +43,23 @@ const Profile = () => {
             }
         };
         fetchUserInfo();
-    }, [username]);
+    }, [username, currentUser]);
+
+    const handleFollow = async () => {
+        try{
+            if(currentUser){
+                if(isFollowing){
+                    await OmdbApi.unfollowUser(currentUser.username, username);
+                } else {
+                    await OmdbApi.followUser(currentUser.username, username);
+                }   
+            }
+            setIsFollowing(!isFollowing);
+        } catch (err){
+          console.error("Application error:", err)
+        }
+      };
+    
 
     console.log(userInfo)
 
@@ -77,6 +96,15 @@ const Profile = () => {
                             <CardText>
                                 {`Birthday: ${userInfo.birthday}`}
                             </CardText>
+                            {currentUser && currentUser.username !== username && (
+                                <button 
+                                className="button-follow"
+                                onClick={handleFollow}
+                                color={isFollowing ? "green" : "lightGreen"}
+                                >
+                                    {isFollowing ? "Unfollow" : "Follow"}
+                                </button>
+                            )}
                         </Col>
                     </Row>
                 </CardBody>
