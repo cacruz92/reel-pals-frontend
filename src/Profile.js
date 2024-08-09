@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Profile.css"
@@ -25,9 +25,12 @@ const Profile = () => {
         const fetchUserInfo = async () => {
             try {
                 const fetchReviews = await OmdbApi.findUserReviews(username);
+                console.log("Fetched reviews:", fetchReviews);
                 setReviews(fetchReviews.reviews || []);
+                console.log("REVIEWS:", reviews)
 
                 const fetchProfileInfo = await OmdbApi.getUserProfile(username);
+                console.log("Fetched profile info:", fetchProfileInfo);
                 setUserInfo(fetchProfileInfo.user);
                 console.log("User INFO:", fetchProfileInfo)
                 setIsLoading(false);
@@ -83,15 +86,22 @@ const Profile = () => {
                     {reviews.length > 0 ? (
                         reviews.map(review => (
                             <Card key={review.id} className="Profile-card">
-                                <Col xs="12">
-                                    <CardTitle>{review.title}</CardTitle>
+                                <Row>
+                                    <Col xs="3"> 
+                                        <img src={review.poster} alt={`${review.movie_title} poster`} className="Review-poster" />
+                                    </Col> 
+                                    <Col xs="9">
+                                        <CardTitle tag="h3">
+                                            <NavLink to={`/movie/${review.movie_imdb_id}`}>{review.movie_title}</NavLink>
+                                        </CardTitle>
+                                        <CardTitle tag="h4">{review.title}</CardTitle>
+                                        <CardText>
+                                            <p>{review.rating}/5</p>
+                                            <p>{review.body}</p>
+                                        </CardText>
                                     </Col>
-                                    <Col xs="12">
-                                    <CardText>
-                                        <p>{review.rating}/5</p>
-                                        <p>{review.body}</p>
-                                    </CardText>
-                                    </Col>
+                                </Row>
+                                    
                             </Card>
                         ))) : ( <p> No reviews Yet</p> )}
                 </section>
