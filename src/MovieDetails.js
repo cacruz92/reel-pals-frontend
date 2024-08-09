@@ -61,7 +61,7 @@ const MovieDetails = () => {
             </section>
         </div>
         <div>
-            <ReviewForm movie_imdb_id={movie.imdbID}/>
+            <ReviewForm movie_imdb_id={movie.imdbID} poster={movie.Poster}/>
         </div>
         </>    
     )

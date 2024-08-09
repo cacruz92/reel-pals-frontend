@@ -13,7 +13,7 @@ import {
     ListGroupItem
   } from "reactstrap";
 
-const ReviewForm = ({movie_imdb_id}) => {
+const ReviewForm = ({movie_imdb_id, poster}) => {
     const navigate = useNavigate();
     const {currentUser} = useContext(UserContext);
     const INITIAL_STATE = {
@@ -55,11 +55,13 @@ const ReviewForm = ({movie_imdb_id}) => {
         console.log(movie_imdb_id);
         console.log(currentUser.username);
         console.log(formData);
+        console.log(poster)
         try {
             await OmdbApi.addReview({
             ...formData,
             movie_imdb_id,
-            username: currentUser.username 
+            username: currentUser.username,
+            poster 
             });
             navigate('/');
         } catch(e){

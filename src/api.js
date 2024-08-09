@@ -104,6 +104,13 @@ class OmdbApi {
       return res;
     }
 
+    /** Get user profile */
+  
+    static async getUserProfile(username){
+      let res = await this.authRequest(`users/${username}`);
+      return res;
+    }
+
     /** Update user */
   
     static async updateUserProfile(username, userData){
@@ -173,8 +180,8 @@ class OmdbApi {
 
     /** Find all reviews made by a specific user */
     
-    static async findUserReviews(userId){
-      let res = await this.authRequest(`reviews/${userId}`)
+    static async findUserReviews(username){
+      let res = await this.authRequest(`reviews/${username}`)
       return res;
     }
 

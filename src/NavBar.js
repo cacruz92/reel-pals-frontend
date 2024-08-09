@@ -20,7 +20,7 @@ const NavBar = () => {
                   <>
                       <NavLink to="/search" className="nav-link"> Explore </NavLink>
                       <NavLink to="/" className="nav-link"> Reviews </NavLink>
-                      <NavLink to="/" className="nav-link"> Profile </NavLink>
+                      <NavLink to={`users/${currentUser.username}`} className="nav-link"> Profile </NavLink>
                       <NavLink to="/" 
                       onClick={logout} 
                       className="nav-link"> Logout </NavLink> 
