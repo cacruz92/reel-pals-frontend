@@ -57,7 +57,9 @@ class OmdbApi {
   // Movie methods
 
   static async searchMovies(title, year = ""){
+    console.log("API: Searching movies", { title, year });
     const result = await this.omdbRequest({s: title, y: year, type: "movie"});
+    console.log("API: Movie search result", result);
     return result;
   }
 
@@ -125,6 +127,14 @@ class OmdbApi {
       return res;
     }
 
+    /** Search for a User */
+    static async searchByUser(searchTerm){
+      console.log("API: Searching users", { searchTerm });
+      let res = await this.authRequest(`users/search?term=${searchTerm}`);
+      console.log("API: User search result", res);
+      return res;
+    }
+
     //Follow methods
 
     /** Follow a user */
@@ -164,7 +174,7 @@ class OmdbApi {
       return res;
     }    
 
-    /** Add a review */
+    /** Edit a review */
 
     static async editReview(reviewId, reviewData){
       let res = await this.authRequest(`reviews/${reviewId}`, reviewData, "patch");
@@ -181,7 +191,13 @@ class OmdbApi {
     /** Find all reviews made by a specific user */
     
     static async findUserReviews(username){
-      let res = await this.authRequest(`reviews/${username}`)
+      let res = await this.authRequest(`reviews/user/${username}`)
+      return res;
+    }
+
+    /** Get Review by review ID */
+    static async getReview(reviewId){
+      let res = await this.authRequest(`reviews/${reviewId}`)
       return res;
     }
 
@@ -210,6 +226,14 @@ class OmdbApi {
 
     static async getReviewByTags(tagName){
       let res = await this.authRequest(`reviews/tags/${tagName}`)
+      return res;
+    }
+
+    /** Search by tag */
+    static async searchByTag(searchTerm){
+      console.log("API: Searching tags", { searchTerm });
+      let res = await this.authRequest(`reviews/search/tags?term=${searchTerm}`)
+      console.log("API: Tag search result", res);
       return res;
     }
 

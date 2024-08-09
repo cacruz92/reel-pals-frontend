@@ -78,6 +78,7 @@ function App() {
             <Route path="/signup" element={<SignUpForm handleUserAuth={handleUserAuth} />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/movie/:id/review" element={<ReviewForm />} />
+            <Route path="/reviews/:id" element={<ReviewForm />} />
         </Routes>
     </div>
   );

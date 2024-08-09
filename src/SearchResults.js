@@ -9,7 +9,7 @@ import {
     ListGroupItem
   } from "reactstrap";
 
-const SearchResults = ({ results, error }) => {
+const SearchResults = ({ results, error, category }) => {
     if(error){
         return (
             <div> <h1> {error} </h1></div>
@@ -25,22 +25,32 @@ const SearchResults = ({ results, error }) => {
         <div>
             <section className="col-md-4">
                 {                
-                results.map(movie => (
-                    <Card key={movie.imdbID} className="mb-3">
+                results.map(item => (
+                    <Card key={item.imdbID || item.username || item.id} className="mb-3">
                         <CardBody>
                             <CardTitle>
                                
                                     <ListGroupItem className="list-group-item">
-                                        {movie.Title}
-                                        ({movie.Year})
+                                        {category === "movies" && `${item.Title} (${item.Year})`}
+                                        {category === "users" && `${item.username}`}
+                                        {category === "tags" && `${item.title} - ${item.movie_title})`}
                                     </ListGroupItem>
                                 
                             </CardTitle> 
                             <CardText>
-                            <Link 
-                                to={`/movie/${movie.imdbID}`}>
-                                    <img src={movie.Poster} alt={`${movie.Title}'s poster`}></img> </Link>
-                                </CardText>   
+                            {category === "movies" && (<Link 
+                                to={`/movie/${item.imdbID}`}>
+                                    <img src={item.Poster} alt={`${item.Title}'s poster`}></img> </Link>)}
+                            {category === "users" && (<Link to={`/users/${item.username}`}> View Profile </Link>)}
+                            {category === "tags" && (
+                                <>
+                                <p> Rating: {item.rating}/5 </p>
+                                <p>{item.body.substring(0,75)}...</p>
+                                <Link 
+                                to={`/reviews/${item.id}`}> </Link>
+                                </>
+                            )}
+                            </CardText>   
                         </CardBody>
                     </Card>
                     ))}
