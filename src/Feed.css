@@ -1,0 +1,48 @@
+.Feed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .Feed-content {
+    width: 60%;
+  }
+  
+  .Feed .card {
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  
+  .Feed .card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .Feed .card-text {
+    margin-top: 10px;
+  }
+  
+  .Feed .list-group-item {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  
+  .Feed a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .Feed a:hover {
+    text-decoration: underline;
+  }
+  
+  .Review-poster {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }

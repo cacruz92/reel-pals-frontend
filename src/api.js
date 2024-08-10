@@ -201,6 +201,13 @@ class OmdbApi {
       return res;
     }
 
+    /** Generate user feed */
+
+    static async getUserFeed(username){
+      let res = await this.authRequest(`reviews/feed/${username}`);
+      return res.feed;
+    }
+
     /** Add tag to a review */
 
     static async addTag(reviewId, tagName){
