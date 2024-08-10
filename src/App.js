@@ -8,6 +8,7 @@ import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm"
 import MovieDetails from "./MovieDetails";
 import Profile from "./Profile";
+import Review from './Review.js';
 import ReviewForm from "./ReviewForm";
 import Search from "./Search.js";
 import {useContext, useEffect, useState } from 'react';
@@ -78,7 +79,7 @@ function App() {
             <Route path="/signup" element={<SignUpForm handleUserAuth={handleUserAuth} />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/movie/:id/review" element={<ReviewForm />} />
-            <Route path="/reviews/:id" element={<ReviewForm />} />
+            <Route path="/reviews/:reviewId" element={<Review />} />
         </Routes>
     </div>
   );

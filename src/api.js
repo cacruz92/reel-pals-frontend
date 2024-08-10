@@ -197,6 +197,7 @@ class OmdbApi {
 
     /** Get Review by review ID */
     static async getReview(reviewId){
+      console.log("getReview called with reviewId:", reviewId);
       let res = await this.authRequest(`reviews/${reviewId}`)
       return res;
     }

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, Link } from "react-router-dom";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Profile.css"
@@ -124,8 +124,9 @@ const Profile = () => {
                                         </CardTitle>
                                         <CardTitle tag="h4">{review.title}</CardTitle>
                                         <CardText>
-                                            <p>{review.rating}/5</p>
-                                            <p>{review.body}</p>
+                                            <p>Rating: {review.rating}/5</p>
+                                            <p>Review body: {review.body}</p>
+                                            <Link to={`/reviews/${review.id}`}>Read more</Link>
                                         </CardText>
                                     </Col>
                                 </Row>
