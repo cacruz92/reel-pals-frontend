@@ -11,12 +11,9 @@ const Search = () => {
     const handleSearch  = async (searchTerm, year = "", category) => {
       try{
         let results;
-        console.log(category);
         if (category === "movies"){
-          console.log("Searching movies...");
           setSearchCategory("movies");
           const results = await OmdbApi.searchMovies(searchTerm, year);
-          console.log("Movie search results:", results);
           if(results){
             setSearchResults(results.Search);
             setSearchError(null);
@@ -25,10 +22,8 @@ const Search = () => {
             setSearchError("No results found");
           }  
         } else if(category === "users"){
-          console.log("Searching users...");
           setSearchCategory("users");
           const results = await OmdbApi.searchByUser(searchTerm);
-          console.log("User search results:", results);
           if(results && results.users){
             setSearchResults(results.users);
             setSearchError(null);
@@ -37,10 +32,8 @@ const Search = () => {
             setSearchError("No results found");
           }  
         } else {
-          console.log("Searching by tag...");
           setSearchCategory("tags");
           const results = await OmdbApi.searchByTag(searchTerm);
-          console.log("Search by tag results:", results);
           if(results && results.reviews){
             setSearchResults(results.reviews);
             setSearchError(null);

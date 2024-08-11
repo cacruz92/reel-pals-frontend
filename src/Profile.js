@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import { useParams, NavLink, Link } from "react-router-dom";
+import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Profile.css"
@@ -21,6 +22,7 @@ const Profile = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [followToggle, setFollowToggle] = useState(false);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -33,7 +35,8 @@ const Profile = () => {
                 
                 if(currentUser){
                     const userFollowing = await OmdbApi.getUserFollowing(currentUser.username);
-                    setIsFollowing(userFollowing.following.some(user => user.username === username));
+                    const isFollowingUser = Array.isArray(userFollowing) && userFollowing.some(user => user.username === username);
+                    setIsFollowing(isFollowingUser);
                 }
 
                 setIsLoading(false);
@@ -43,25 +46,30 @@ const Profile = () => {
             }
         };
         fetchUserInfo();
-    }, [username, currentUser]);
+    }, [username, currentUser, followToggle]);
 
     const handleFollow = async () => {
         try{
             if(currentUser){
+                let result;
                 if(isFollowing){
-                    await OmdbApi.unfollowUser(currentUser.username, username);
+                    result = await OmdbApi.unfollowUser(currentUser.username, username);
                 } else {
-                    await OmdbApi.followUser(currentUser.username, username);
+                    result = await OmdbApi.followUser(currentUser.username, username);
                 }   
+                if (result && !result.error) {
+                    setFollowToggle(prev => !prev);
+                    setIsFollowing(!isFollowing);
+                } else {
+                    console.error("Follow/Unfollow operation failed:", result.error);
+                }
             }
-            setIsFollowing(!isFollowing);
-        } catch (err){
-          console.error("Application error:", err)
+            
+        } catch (e){
+          console.error("Application error:", e)
         }
       };
     
-
-    console.log(userInfo)
 
     const capitalizeWords = (str) => {
         return str.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
@@ -100,7 +108,7 @@ const Profile = () => {
                                 <button 
                                 className="button-follow"
                                 onClick={handleFollow}
-                                color={isFollowing ? "green" : "lightGreen"}
+                                
                                 >
                                     {isFollowing ? "Unfollow" : "Follow"}
                                 </button>
@@ -130,6 +138,12 @@ const Profile = () => {
                                         </CardText>
                                     </Col>
                                 </Row>
+                                <LikeButton 
+                                    reviewId={review.id} 
+                                    initialLikeCount={review.likes_count} 
+                                    initialIsLiked={review.is_liked_by_current_user}
+                                />
+                                <p>Likes: {review.likes_count}</p>
                                     
                             </Card>
                         ))) : ( <p> No reviews Yet</p> )}

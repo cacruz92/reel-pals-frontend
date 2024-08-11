@@ -30,36 +30,56 @@ class OmdbApi {
   }
 
   static async authRequest(endpoint, data = {}, method = "get") {
-    console.debug("Auth API Call:", endpoint, data, method);
+    console.debug("API Call:", endpoint, data, method);
 
     const url = `${AUTH_BASE_URL}${endpoint}`;
+    const headers = {};
     const token = localStorage.getItem('token');
-    const headers = { Authorization: `Bearer ${token}`};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const params = (method === "get")
+        ? data
+        : {};
 
     try {
-      const response = await axios({
-        url,
-        method,
-        data,
-        headers
-      });
-
+      const response = await axios({ url, method, data, params, headers });
       return response.data;
-
-    } catch (err) {
-      console.error("Auth API Error:", err.response);
-      let message = err.response.data.Error || "An error occurred";
+    } catch (e) {
+      console.error("API Error:", e.response);
+      let message = e.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
+
+    // console.debug("Auth API Call:", endpoint, data, method);
+
+    // const url = `${AUTH_BASE_URL}${endpoint}`;
+    // const token = localStorage.getItem('token');
+    // const headers = { Authorization: `Bearer ${token}`};
+
+    // try {
+    //   const response = await axios({
+    //     url,
+    //     method,
+    //     data,
+    //     headers
+    //   });
+
+    //   return response.data;
+
+    // } catch (e) {
+    //   console.error("Auth API Error:", e.response);
+    //   let message = e.response.data.Error || "An error occurred";
+    //   throw Array.isArray(message) ? message : [message];
+    // }
   }
 
 
   // Movie methods
 
   static async searchMovies(title, year = ""){
-    console.log("API: Searching movies", { title, year });
     const result = await this.omdbRequest({s: title, y: year, type: "movie"});
-    console.log("API: Movie search result", result);
     return result;
   }
 
@@ -93,9 +113,12 @@ class OmdbApi {
   
     static async login(userData){
       let res = await this.authRequest("users/login", userData,"post")
-      this.token = res.token;
-      return {token: res.token, user: res.user };
+      if (res.token) {
+        localStorage.setItem('token', res.token);
+      }
+      return res;
     }
+    
 
     /** Get current user */
   
@@ -129,9 +152,7 @@ class OmdbApi {
 
     /** Search for a User */
     static async searchByUser(searchTerm){
-      console.log("API: Searching users", { searchTerm });
       let res = await this.authRequest(`users/search?term=${searchTerm}`);
-      console.log("API: User search result", res);
       return res;
     }
 
@@ -155,14 +176,14 @@ class OmdbApi {
 
     static async getUserFollowers(username){
       let res = await this.authRequest(`users/${username}/followers`);
-      return res;
+      return res.followers;
     }
 
     /** Gets users followed by user */
 
     static async getUserFollowing(username){
       let res = await this.authRequest(`users/${username}/following`);
-      return res;
+      return res.following;
     }
 
     // Review methods
@@ -197,9 +218,20 @@ class OmdbApi {
 
     /** Get Review by review ID */
     static async getReview(reviewId){
-      console.log("getReview called with reviewId:", reviewId);
       let res = await this.authRequest(`reviews/${reviewId}`)
       return res;
+    }
+
+    /** Add a comment to a review */
+    static async addComment(reviewId, body){
+      let res = await this.authRequest(`reviews/${reviewId}/comments/add`, {body}, "post");
+      return res.comment;
+    }
+
+    /** Remove a comment from a review */
+    static async removeComment(reviewId, commentId){
+      let res = await this.authRequest(`reviews/${reviewId}/comments/${commentId}`, {}, "delete");
+      return res.comment;
     }
 
     /** Generate user feed */
@@ -239,20 +271,12 @@ class OmdbApi {
 
     /** Search by tag */
     static async searchByTag(searchTerm){
-      console.log("API: Searching tags", { searchTerm });
       let res = await this.authRequest(`reviews/search/tags?term=${searchTerm}`)
-      console.log("API: Tag search result", res);
       return res;
     }
 
     //Comment methods
 
-    /** Add a comment */
-
-    static async addComment(reviewId, userId, body){
-      let res = await this.authRequest(`reviews/${reviewId}/comments/add`, {userId, body}, "post");
-      return res;
-    }
 
     /** Edit a comment */
 
@@ -279,15 +303,15 @@ class OmdbApi {
 
     /** Add a like to a review */
 
-    static async addLike(reviewId, userId){
-      let res = await this.authRequest(`reviews/${reviewId}/like`, { userId }, "post");
+    static async addLike(reviewId, username){
+      let res = await this.authRequest(`reviews/${reviewId}/like`, { username }, "post");
       return res;
     }
 
     /** Remove a like from a review */
 
-    static async removeLike(reviewId, userId){
-      let res = await this.authRequest(`reviews/${reviewId}/like`, { userId }, "delete");
+    static async removeLike(reviewId, username){
+      let res = await this.authRequest(`reviews/${reviewId}/like`, { username }, "delete");
       return res;
     }
 

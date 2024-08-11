@@ -54,7 +54,7 @@ function App() {
         setCurrentUser(result.user);
         setToken(result.token);
         navigate('/')
-        return result;
+        return { success: true, ...result };
       }
       return { success: false, errors: ["Authentication failed"] };
   } catch(errors) {

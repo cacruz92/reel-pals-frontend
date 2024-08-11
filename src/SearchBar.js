@@ -7,7 +7,6 @@ const SearchBar = ({ onSearch }) => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(`Searching for ${searchTerm} in category: ${category}`);
         onSearch(searchTerm, year, category);
     };
 

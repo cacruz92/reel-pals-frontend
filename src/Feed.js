@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
+import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Feed.css";
@@ -57,8 +58,15 @@ const Feed = () => {
                                 <p>Rating: {review.rating}/5</p>
                                 <p>{review.body.substring(0,250)}...</p>
                                 <Link to={`/reviews/${review.id}`}>Read more</Link>
-                            </CardText>   
+                            </CardText> 
+                             
                         </CardBody>
+                        <LikeButton 
+                                    reviewId={review.id} 
+                                    initialLikeCount={review.likes_count} 
+                                    initialIsLiked={review.is_liked_by_current_user}
+                                />
+                                <p>Likes: {review.likes_count}</p>
                     </Card>
                 ))}
             </div>

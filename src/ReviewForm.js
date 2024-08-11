@@ -52,10 +52,6 @@ const ReviewForm = ({movie_imdb_id, poster}) => {
             return;
         }
 
-        console.log(movie_imdb_id);
-        console.log(currentUser.username);
-        console.log(formData);
-        console.log(poster)
         try {
             await OmdbApi.addReview({
             ...formData,
@@ -116,7 +112,7 @@ const ReviewForm = ({movie_imdb_id, poster}) => {
                         <label htmlFor="title">Title:</label>
                         <input 
                         id="title"
-                        type="text"
+                        type="textarea"
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
