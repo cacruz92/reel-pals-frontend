@@ -2,11 +2,15 @@ import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import OmdbApi from "./api";
 import ReviewForm from "./ReviewForm";
+import "./MovieDetails.css"
 import {
     Card,
     CardBody,
     CardTitle,
-    CardText
+    CardText,
+    Container,
+    Row,
+    Col
   } from "reactstrap";
 
 const MovieDetails = () => {
@@ -38,32 +42,36 @@ const MovieDetails = () => {
     }
 
     return(
-        <>
-        <div>
-            <section className="col-md-4">
-                    <Card key={movie.imdbID} className="mb-3">
-                        <CardBody>
-                            <CardTitle><h1>{movie.Title}</h1></CardTitle> 
-                            <CardText>
-                                <img src={movie.Poster} alt={`${movie.Title}'s poster`}></img> 
-                                <p><strong>Director:</strong> {movie.Director}</p>
-                                <p><strong>Actors:</strong> {movie.Actors}</p>
-                                <p><strong>Plot:</strong> {movie.Plot}</p>
-                                <p><strong>Genre:</strong> {movie.Genre}</p>
-                                <p><strong>IMDB Rating:</strong> {movie.imdbRating}</p>
-                                <p><strong>Runtime:</strong> {movie.Runtime}</p>
-                                <p><strong>Released:</strong> {movie.Released}</p>
-                                <p><strong>Awards:</strong> {movie.Awards}</p>
-                                </CardText>   
-                        </CardBody>
-                    </Card>
+        <Container className="MovieDetails">
+        <Card className="MovieDetails-card">
+            <CardBody>
+                <Row>
+                    <Col md="4">
+                        <img src={movie.Poster} alt={`${movie.Title}'s poster`} className="img-fluid mb-3" />
+                    </Col>
+                    <Col md="8">
+                        <CardTitle tag="h1">{movie.Title}</CardTitle>
+                        <CardText>
+                            <p><strong>Director:</strong> {movie.Director}</p>
+                            <p><strong>Actors:</strong> {movie.Actors}</p>
+                            <p><strong>Plot:</strong> {movie.Plot}</p>
+                            <p><strong>Genre:</strong> {movie.Genre}</p>
+                            <p><strong>IMDB Rating:</strong> {movie.imdbRating}</p>
+                            <p><strong>Runtime:</strong> {movie.Runtime}</p>
+                            <p><strong>Released:</strong> {movie.Released}</p>
+                            <p><strong>Awards:</strong> {movie.Awards}</p>
+                        </CardText>  
+                    </Col>
+                </Row> 
+            </CardBody>
+        </Card>
                     
-            </section>
-        </div>
-        <div>
-            <ReviewForm movie_imdb_id={movie.imdbID} poster={movie.Poster}/>
-        </div>
-        </>    
+        <Card className="MovieDetails-review-form">
+                <CardBody>
+                    <ReviewForm movie_imdb_id={movie.imdbID} poster={movie.Poster} />
+                </CardBody>
+            </Card>
+        </Container>   
     )
 
 }

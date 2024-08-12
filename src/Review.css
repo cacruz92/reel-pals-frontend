@@ -1,0 +1,141 @@
+.Review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.Review-card {
+    position: relative;
+    width: 60%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    background-color: rgba(211, 211, 211, 0.95);
+}
+
+.edit-review-btn,
+.delete-review-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.edit-review-btn {
+    right: 50px; 
+}
+.delete-review-btn {
+    right: 10px;
+}
+
+.Review-card .btn-danger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 1.2em;
+}
+
+.Review-card .btn-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.Review-poster {
+    max-width: 100%;
+    height: auto;
+}
+
+.comments-section {
+    width: 60%;
+    margin-top: 20px;
+}
+
+.comments-section .card {
+    width: 100%;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    background-color: rgba(240, 240, 240, 0.95);
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.comment-footer button {
+    padding: 0.25rem 0.5rem;
+}
+
+.comment-footer button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.Review-card .card-title {
+    margin-bottom: 15px;
+}
+
+.Review-card .card-text {
+    margin-bottom: 10px;
+}
+
+.Review-card a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.Review-card a:hover {
+    text-decoration: underline;
+}
+
+.CommentForm {
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.CommentForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.CommentForm button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.CommentForm button:hover {
+    background-color: #0056b3;
+}
+
+.Review .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Review-card,
+.comments-section,
+.CommentForm {
+    width: 100%;
+    max-width: 800px;  /* or whatever maximum width you prefer */
+}
+
+@media (max-width: 768px) {
+    .Review-card,
+    .comments-section,
+    .CommentForm {
+        width: 90%;
+    }
+}

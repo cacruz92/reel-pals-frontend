@@ -59,7 +59,7 @@ const ReviewForm = ({movie_imdb_id, poster}) => {
             username: currentUser.username,
             poster 
             });
-            navigate('/');
+            navigate(`/users/${currentUser.username}`);
         } catch(e){
             setFormErrors([e.message || "An error occurred while submitting the review"]);
         }

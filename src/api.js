@@ -205,7 +205,7 @@ class OmdbApi {
     /** Delete a review */
 
     static async removeReview(reviewId){
-      let res = await this.authRequest(`${reviewId}`, {}, "delete")
+      let res = await this.authRequest(`reviews/${reviewId}`, {}, "delete")
       return res;
     }
 
@@ -239,40 +239,6 @@ class OmdbApi {
     static async getUserFeed(username){
       let res = await this.authRequest(`reviews/feed/${username}`);
       return res.feed;
-    }
-
-    /** Add tag to a review */
-
-    static async addTag(reviewId, tagName){
-      let res = await this.authRequest(`reviews/${reviewId}/tag`, {tagName}, "post")
-      return res;
-    }
-
-    /** Remove a tag from a review */
-
-    static async removeTag(reviewId, tagName){
-      let res = await this.authRequest(`reviews/${reviewId}/tag/${tagName}`, {}, "delete");
-      return res;
-    }  
-
-    /** Get tags associated with a specific review */
-
-    static async getTagsByReview(reviewId){
-      let res = await this.authRequest(`reviews/${reviewId}/`)
-      return res;
-    }
-
-    /** Get reviews associated with a particular tag */
-
-    static async getReviewByTags(tagName){
-      let res = await this.authRequest(`reviews/tags/${tagName}`)
-      return res;
-    }
-
-    /** Search by tag */
-    static async searchByTag(searchTerm){
-      let res = await this.authRequest(`reviews/search/tags?term=${searchTerm}`)
-      return res;
     }
 
     //Comment methods
@@ -315,24 +281,11 @@ class OmdbApi {
       return res;
     }
 
-    //Tag methods
-
-    /** Add a tag to the system */
-
-    static async addTagToDb(name){
-      let res = await this.authRequest(`tags/add`, {name}, "post");
-      return res;
+    /**Get like count */
+    
+    static async getLikeCount(reviewId) {
+      let res = await this.authRequest(`reviews/${reviewId}/likes`);
+      return res.likeCount;
     }
-
-    /** Find all tags in the Database */
-
-    static async findAllTags(){
-      let res = await this.authRequest(`tags/all`);
-      return res;
-    }
-}
-
-
-
-
+  }
 export default OmdbApi;

@@ -3,14 +3,15 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import Home from "./Home";
 import NavBar from "./NavBar";
-import ExplorePage from "./ExplorePage";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm"
 import MovieDetails from "./MovieDetails";
 import Profile from "./Profile";
 import Review from './Review.js';
+import EditProfileForm from './EditProfileForm.js';
 import ReviewForm from "./ReviewForm";
 import Search from "./Search.js";
+import EditReviewForm from "./EditReviewForm.js"
 import {useContext, useEffect, useState } from 'react';
 import {UserContext, UserProvider} from './UserContext';
 import OmdbApi from './api.js';
@@ -80,6 +81,8 @@ function App() {
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/movie/:id/review" element={<ReviewForm />} />
             <Route path="/reviews/:reviewId" element={<Review />} />
+            <Route path="/reviews/:reviewId/edit" element={<EditReviewForm />} />
+            <Route path="/users/:username/edit" element={<EditProfileForm />} />
         </Routes>
     </div>
   );

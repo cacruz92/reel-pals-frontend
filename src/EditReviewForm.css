@@ -1,0 +1,40 @@
+.EditReviewForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.EditReviewForm .container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.EditReviewForm .edit-card {
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    background-color: rgba(211, 211, 211, 0.95);
+}
+
+.EditReviewForm .form-group {
+    margin-bottom: 1rem;
+}
+
+.EditReviewForm textarea {
+    min-height: 150px;
+}
+
+.EditReviewForm .submit-btn {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .EditReviewForm .container {
+        width: 90%;
+    }
+}

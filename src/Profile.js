@@ -1,23 +1,25 @@
 import React, {useContext, useEffect, useState} from "react";
-import { useParams, NavLink, Link } from "react-router-dom";
+import { useParams, NavLink, Link, useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Profile.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import {
     Card,
     CardBody,
     CardTitle,
     CardText,
-    ListGroup,
-    ListGroupItem,
     Col,
-    Row
+    Row,
+    Button
   } from "reactstrap";
 
 const Profile = () => {
     const {currentUser} = useContext(UserContext);
     const {username} = useParams()
+    const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +30,11 @@ const Profile = () => {
         const fetchUserInfo = async () => {
             try {
                 const fetchReviews = await OmdbApi.findUserReviews(username);
-                setReviews(fetchReviews.reviews || []);
+                const reviewsWithlikes = await Promise.all(fetchReviews.reviews.map(async (review) => {
+                    const likes_count = await OmdbApi.getLikeCount(review.id); 
+                    return { ...review, likes_count }
+                }))
+                setReviews(reviewsWithlikes);
 
                 const fetchProfileInfo = await OmdbApi.getUserProfile(username);
                 setUserInfo(fetchProfileInfo.user);
@@ -69,7 +75,12 @@ const Profile = () => {
           console.error("Application error:", e)
         }
       };
-    
+
+      const formatBirthday = (dateString) => {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
 
     const capitalizeWords = (str) => {
         return str.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
@@ -86,6 +97,16 @@ const Profile = () => {
         <div className="Profile">
             <Card className="Profile-card">
                 <CardBody>
+                {currentUser && currentUser.username === username && (
+                        <Button 
+                            color="primary" 
+                            size="sm" 
+                            className="edit-profile-btn"
+                            onClick={() => navigate(`/users/${username}/edit`)}
+                        >
+                            <FontAwesomeIcon icon={faEdit} />
+                        </Button>
+                    )}
                     <Row>
                         <Col xs="3">
                             <img
@@ -102,7 +123,7 @@ const Profile = () => {
                                 {capitalizeWords(`${username}`)}
                             </CardText>
                             <CardText>
-                                {`Birthday: ${userInfo.birthday}`}
+                                {`Birthday: ${formatBirthday(userInfo.birthday)}`}
                             </CardText>
                             {currentUser && currentUser.username !== username && (
                                 <button 
@@ -143,7 +164,6 @@ const Profile = () => {
                                     initialLikeCount={review.likes_count} 
                                     initialIsLiked={review.is_liked_by_current_user}
                                 />
-                                <p>Likes: {review.likes_count}</p>
                                     
                             </Card>
                         ))) : ( <p> No reviews Yet</p> )}

@@ -26,7 +26,6 @@ const SearchBar = ({ onSearch }) => {
                 <select value={category} onChange={handleCategoryChange}>
                     <option value="movies">Movies</option>
                     <option value="users">Users</option>
-                    <option value="tags">Tags</option>
                 </select>
                 <button type="submit">Search</button>
             </form>

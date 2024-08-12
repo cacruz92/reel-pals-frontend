@@ -1,21 +1,45 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 import OmdbApi from "./api";
 import CommentForm from "./CommentForm";
 import LikeButton from "./LikeButton";
 import {UserContext} from "./UserContext";
+import "./Review.css"
 import {
     Card,
     CardBody,
     CardTitle,
     CardText,
     Col,
-    Row
+    Row,
+    Container,
+    Button
   } from "reactstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+
+const getElapsedTime = (dateString) => {
+    const now = new Date();
+    const posted = new Date(dateString);
+    const elapsed = now - posted;
+    console.log(elapsed)
+    const hours = Math.floor(elapsed / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+        return `${days} day${days > 1 ? 's' : ''} ago`;
+    } else if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+        return 'Just now';
+    }
+};
 
 const Review = () =>{
     const {reviewId} = useParams();
     const {currentUser} = useContext(UserContext);
+    const navigate = useNavigate();
     const [review, setReview] = useState(null);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
@@ -41,6 +65,25 @@ const handleCommentAdded = (newComment) => {
     setComments([newComment, ...comments]);
 }
 
+const handleCommentDelete = async (commentId) => {
+    try {
+        await OmdbApi.deleteComment(reviewId, commentId);
+        setComments(comments.filter(comment => comment.id !== commentId));
+    } catch (e) {
+        console.error("Error deleting comment:", e);
+    }
+}
+
+const handleReviewDelete = async () => {
+    try {
+        await OmdbApi.removeReview(reviewId);
+        navigate('/');
+    } catch (e) {
+        console.error("Error deleting review:", e);
+        setError("Failed to delete review. Please try again.");
+    }
+}
+
 if(isLoading){
     return <div><h1>Loading...</h1></div>
 }
@@ -53,8 +96,32 @@ if (!review) {
 }
 
 return(
-    <>
-        <Card key={review.id} className="Profile-card">
+    <div className="Review">
+        <Container>
+        <Card key={review.id} className="Review-card">
+            <CardBody>
+            {currentUser && currentUser.username === review.user_username && (
+                    <>
+                    <Button 
+                        color="primary" 
+                        size="sm" 
+                        className="edit-review-btn"
+                        onClick={() => navigate(`/reviews/${review.id}/edit`)}
+                    >
+                        <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button 
+                        id="deleteReviewBtn"
+                        color="danger" 
+                        size="sm" 
+                        className="delete-review-btn"
+                        onClick={handleReviewDelete}
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
+                    </Button>
+                    </>
+                )}
+
             <Row>
                 <Col xs="3"> 
                     {review.poster && <img src={review.poster} alt={`${review.movie_title} poster`} className="Review-poster" />}
@@ -74,21 +141,35 @@ return(
                             initialIsLiked={review.is_liked_by_current_user}
                         />
                 </Col>
-            </Row>                                
+            </Row>    
+            </CardBody>                            
         </Card>
-        <CommentForm reviewId={review.id} onCommentAdded={handleCommentAdded} />
+        <div className="CommentForm">
+            <CommentForm reviewId={review.id} onCommentAdded={handleCommentAdded} />
+        </div>
             <div className="comments-section">
                 <h4>Comments</h4>
                 {comments.map(comment => (
                     <Card key={comment.id}>
                         <CardBody>
                             <CardText>{comment.body}</CardText>
-                            <small>By: {comment.username}</small>
+                            <small> {comment.user_username} • {getElapsedTime(comment.created_at)} </small>
+                            {currentUser && currentUser.username === comment.user_username && (
+                                    <Button 
+                                        color="danger" 
+                                        size="sm" 
+                                        className="float-right"
+                                        onClick={() => handleCommentDelete(comment.id)}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </Button>
+                                )}
                         </CardBody>
                     </Card>
                 ))}
             </div>
-    </>
+            </Container>
+    </div>
 )
 
 }

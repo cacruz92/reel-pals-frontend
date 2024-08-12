@@ -2,13 +2,23 @@ import React, {useState} from "react";
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import OmdbApi from "./api";
+import "./Search.css"
+import {
+  Card,
+  CardBody,
+  Container,
+  Row,
+  Col
+} from "reactstrap";
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchError, setSearchError] = useState(null);
     const [searchCategory, setSearchCategory] = useState("");
+    const [hasSearched, setHasSearched] = useState(false);
   
     const handleSearch  = async (searchTerm, year = "", category) => {
+      setHasSearched(true);
       try{
         let results;
         if (category === "movies"){
@@ -50,16 +60,16 @@ const Search = () => {
     }
     
 return(
-    <>
-    <div>
-        <SearchBar 
-        onSearch={handleSearch}
-        />
-    </div>
-    <div>
-        <SearchResults results={searchResults} error={searchError} category={searchCategory} />
-    </div>
-    </>
+  <Container className="Search">
+  <Card className="Search-card">
+      <CardBody>
+          <SearchBar onSearch={handleSearch} />
+      </CardBody>
+  </Card>
+    <Card className="Search-card">
+        <SearchResults results={searchResults} error={searchError} category={searchCategory} hasSearched={hasSearched} />
+    </Card>
+    </Container>
 )
 }
 

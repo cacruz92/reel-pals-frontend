@@ -9,15 +9,28 @@ import {
     ListGroupItem
   } from "reactstrap";
 
-const SearchResults = ({ results, error, category }) => {
+const SearchResults = ({ results, error, category, hasSearched }) => {
     if(error){
         return (
             <div> <h1> {error} </h1></div>
         )
     }
+
+    if (!hasSearched) {
+        return (
+          <div className="text-center mt-5">
+            <h2>Search for your favorite movies or users</h2>
+            <p>Enter a search term above to get started!</p>
+          </div>
+        );
+      }
+
     if(!results || results.length === 0){
         return(
-            <div><h1> No results found.</h1></div>
+            <div>
+                <h1> No results found.</h1>
+                <p>Try adjusting your search terms or category.</p>
+            </div>
         )
     }
     
@@ -33,7 +46,6 @@ const SearchResults = ({ results, error, category }) => {
                                     <ListGroupItem className="list-group-item">
                                         {category === "movies" && `${item.Title} (${item.Year})`}
                                         {category === "users" && `${item.username}`}
-                                        {category === "tags" && `${item.title} - ${item.movie_title})`}
                                     </ListGroupItem>
                                 
                             </CardTitle> 
@@ -42,14 +54,7 @@ const SearchResults = ({ results, error, category }) => {
                                 to={`/movie/${item.imdbID}`}>
                                     <img src={item.Poster} alt={`${item.Title}'s poster`}></img> </Link>)}
                             {category === "users" && (<Link to={`/users/${item.username}`}> View Profile </Link>)}
-                            {category === "tags" && (
-                                <>
-                                <p> Rating: {item.rating}/5 </p>
-                                <p>{item.body.substring(0,75)}...</p>
-                                <Link 
-                                to={`/reviews/${item.id}`}> </Link>
-                                </>
-                            )}
+                            
                             </CardText>   
                         </CardBody>
                     </Card>

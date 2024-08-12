@@ -4,18 +4,23 @@ import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
 import "./Feed.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import {
     Card,
     CardBody,
     CardTitle,
     CardText,
     ListGroup,
-    ListGroupItem
+    ListGroupItem,
+    Container,
+    Button
   } from "reactstrap";
 
 const Feed = () => {
     const {currentUser} = useContext(UserContext);
     const [feed, setFeed] = useState([]);
+    const [likeCounts, setLikeCounts] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -23,7 +28,12 @@ const Feed = () => {
             if(currentUser){
                 try{
                     const feedData = await OmdbApi.getUserFeed(currentUser.username);
-                    setFeed(feedData);
+                    const feedWithlikes = await Promise.all(feedData.map(async (review) => {
+                        const likes_count = await OmdbApi.getLikeCount(review.id); 
+                        return { ...review, likes_count }
+                    }))
+                
+                    setFeed(feedWithlikes);
                 }catch(e){
                     console.error("Error fetching feed:", e);
                 }
@@ -32,6 +42,32 @@ const Feed = () => {
         }
         getFeed();
     }, [currentUser]);
+
+
+
+    if (!currentUser) {
+        return (
+            <div className="Feed ">
+                <div className="Feed-content">
+                    <Card>
+                        <CardBody>
+                            <CardTitle>
+                                <h2>Welcome to Reel Pals <FontAwesomeIcon icon={faFilm} /> </h2>
+                            </CardTitle>
+                        </CardBody>
+                        <CardText>
+                            <Link to="/login" className="me-2">
+                                <Button color="primary">Login</Button>
+                            </Link>
+                            <Link to="/signup">
+                                <Button color="primary">Signup</Button>
+                            </Link>
+                        </CardText>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
 
     if(isLoading){
         return <div>Loading...</div>
@@ -66,7 +102,6 @@ const Feed = () => {
                                     initialLikeCount={review.likes_count} 
                                     initialIsLiked={review.is_liked_by_current_user}
                                 />
-                                <p>Likes: {review.likes_count}</p>
                     </Card>
                 ))}
             </div>

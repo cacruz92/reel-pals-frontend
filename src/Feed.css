@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 2rem;
   }
   
   .Feed-content {
     width: 60%;
+    
   }
   
   .Feed .card {
@@ -47,3 +48,23 @@
     height: auto;
     margin-top: 10px;
   }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.custom-btn {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+    padding: 12px 24px !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
