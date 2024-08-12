@@ -72,6 +72,28 @@ const Feed = () => {
     if(isLoading){
         return <div>Loading...</div>
     }
+    
+    if (feed.length === 0) {
+        return (
+            <div className="Feed">
+                <div className="Feed-content">
+                    <Card className="mb-3">
+                        <CardBody>
+                            <CardTitle>
+                                <h2>Welcome to Reel Pals <FontAwesomeIcon icon={faFilm} /></h2>
+                            </CardTitle>
+                            <CardText>
+                                <p>Your feed is currently empty. Visit the explore page to find movies to view and rate or users to follow!</p>
+                                <Link to="/explore">
+                                    <Button color="primary">Explore</Button>
+                                </Link>
+                            </CardText>
+                        </CardBody>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="Feed">
@@ -81,11 +103,9 @@ const Feed = () => {
                     <Card key={review.id} className="mb-3">
                         <CardBody>
                             <CardTitle>
-                                <ListGroupItem className="list-group-item">
                                     {review.poster && <img src={review.poster} alt={`${review.movie_title} poster`} className="Review-poster" />}
                                     <br></br>
-                                    {`${review.title} - ${review.movie_title}`}
-                                </ListGroupItem>
+                                    "{`${review.title}`}"
                             </CardTitle> 
                             <CardText>
                                 <Link to={`/users/${review.user_username}`}>

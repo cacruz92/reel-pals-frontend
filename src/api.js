@@ -215,6 +215,12 @@ class OmdbApi {
       let res = await this.authRequest(`reviews/user/${username}`)
       return res;
     }
+    
+    /** Get reviews for a specific movie */
+    static async getMovieReviews(movie_imdb_id) {
+      let res = await this.authRequest(`reviews/movie/${movie_imdb_id}`);
+      return res.reviews;
+  }
 
     /** Get Review by review ID */
     static async getReview(reviewId){

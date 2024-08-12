@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import OmdbApi from "./api";
 import ReviewForm from "./ReviewForm";
 import "./MovieDetails.css"
@@ -15,6 +15,7 @@ import {
 
 const MovieDetails = () => {
     const [movie, setMovie] = useState(null);
+    const [reviews, setReviews] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const {id} = useParams();
@@ -24,6 +25,10 @@ const MovieDetails = () => {
             try{
                 const result = await OmdbApi.getMovieDetails(id);
                 setMovie(result);
+
+                const movieReviews = await OmdbApi.getMovieReviews(id);
+                setReviews(movieReviews);
+
                 setIsLoading(false);
             } catch(e){
                 console.error("Error fetching movie details:", e);
@@ -42,7 +47,7 @@ const MovieDetails = () => {
     }
 
     return(
-        <Container className="MovieDetails">
+        <><Container className="MovieDetails">
         <Card className="MovieDetails-card">
             <CardBody>
                 <Row>
@@ -67,11 +72,38 @@ const MovieDetails = () => {
         </Card>
                     
         <Card className="MovieDetails-review-form">
-                <CardBody>
-                    <ReviewForm movie_imdb_id={movie.imdbID} poster={movie.Poster} />
-                </CardBody>
-            </Card>
+            <CardBody>
+                <ReviewForm movie_imdb_id={movie.imdbID} poster={movie.Poster} />
+            </CardBody>
+        </Card>
+        </Container>  
+        <Container className="MovieDetails">
+        <Card className="MovieDetails-card">
+            <CardBody>
+                <CardTitle tag="h2">Reviews</CardTitle>
+                
+                {reviews.length === 0 ? (
+                    <CardText>No reviews yet. Be the first to review!</CardText>
+                ) : (
+                    reviews.map(review => (
+                        <Card key={review.id} className="mb-3">
+                            <hr></hr>
+                            <CardBody>
+                                <CardTitle tag="h2">"{review.title}"</CardTitle>
+                                <CardText>
+                                    <p><strong>By:</strong><Link to={`/users/${review.user_username}`}>{review.user_username}</Link></p>
+                                    <p><strong>Rating:</strong> {review.rating}/5</p>
+                                    <p>{review.body}</p>
+                                </CardText>
+                            </CardBody>
+                            
+                        </Card>
+                    ))
+                )}
+            </CardBody>
+        </Card>
         </Container>   
+        </>
     )
 
 }

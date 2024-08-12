@@ -151,7 +151,7 @@ const Profile = () => {
                                         <CardTitle tag="h3">
                                             <NavLink to={`/movie/${review.movie_imdb_id}`}>{review.movie_title}</NavLink>
                                         </CardTitle>
-                                        <CardTitle tag="h4">{review.title}</CardTitle>
+                                        <CardTitle tag="h4">"{review.title}"</CardTitle>
                                         <CardText>
                                             <p>Rating: {review.rating}/5</p>
                                             <p>Review body: {review.body}</p>
