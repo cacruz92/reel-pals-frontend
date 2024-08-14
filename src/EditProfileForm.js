@@ -59,12 +59,23 @@ const EditProfileForm = () => {
             return;
         }
 
-        if (hasChanges || formData.newPassword) {
+        const updateData = {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            picture: formData.profilePictureUrl
+        };
+
+        if (formData.newPassword) {
             if (!formData.oldPassword) {
                 setError("Please enter your current password to make changes.");
                 return;
             }
 
+            if (formData.newPassword !== formData.confirmNewPassword) {
+                setError("New passwords do not match.");
+                return;
+            }
+            
             try {
                 const isPasswordValid = await OmdbApi.verifyPassword(username, formData.oldPassword);
                 if (!isPasswordValid) {
