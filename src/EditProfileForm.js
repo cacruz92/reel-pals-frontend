@@ -59,7 +59,7 @@ const EditProfileForm = () => {
             return;
         }
 
-        if (hasChanges && formData.newPassword) {
+        if (hasChanges || formData.newPassword) {
             if (!formData.oldPassword) {
                 setError("Please enter your current password to make changes.");
                 return;
@@ -91,10 +91,11 @@ const EditProfileForm = () => {
             };
 
             if (formData.newPassword) {
+                updateData.currentPassword = formData.oldPassword;
                 updateData.newPassword = formData.newPassword;
             }
 
-            await OmdbApi.updateUserProfile(username, updateData);
+            const updatedUser = await OmdbApi.updateUserProfile(username, updateData);
             setSuccessMessage("Profile updated successfully!");
             navigate(`/users/${username}`)
         } catch (e) {

@@ -4,6 +4,7 @@ import OmdbApi from "./api";
 import {
     Card,
     CardBody,
+    Container,
     CardTitle,
     CardText,
     ListGroup,
@@ -18,7 +19,8 @@ const SignupForm = ({handleUserAuth}) => {
         firstName: "",
         lastName: "",
         email: "",
-        birthday: ""
+        birthday: "",
+        picture: ""
     };
 
     // use state to control the form
@@ -47,8 +49,8 @@ const SignupForm = ({handleUserAuth}) => {
       }
 
     return(
-        <div className="formContainer">
-            <Card>
+        <Container className="EditProfileForm">
+            <Card className="form-card">
                 <CardBody>
                     <h1>Sign Up</h1>
 
@@ -111,12 +113,22 @@ const SignupForm = ({handleUserAuth}) => {
                         value={formData.birthday}
                         onChange={handleChange}
                         />
+                       <br></br>
+                        <label for="picture">Profile Picture URL</label>
+                        <input
+                            type="url"
+                            name="picture"
+                            id="picture"
+                            value={formData.picture}
+                            onChange={handleChange}
+                            placeholder="Enter URL for profile picture"
+                        />
                         <br></br>
                         <button>Submit</button>
                     </form>
                 </CardBody>
             </Card>
-        </div>
+        </Container>
     )
 }
 

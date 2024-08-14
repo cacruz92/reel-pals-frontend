@@ -136,7 +136,14 @@ class OmdbApi {
       return res;
     }
 
-    /** Update user */
+    /** Verify user password */
+
+    static async verifyPassword(username, password){
+      let res = await this.authRequest(`users/${username}/verify-password`,{password}, "post");
+      return res.isValid;
+    }
+
+    /** Update user information*/
   
     static async updateUserProfile(username, userData){
       let res = await  this.authRequest(`users/${username}`, userData, "patch");
