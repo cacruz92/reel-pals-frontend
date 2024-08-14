@@ -16,7 +16,7 @@ import {
     Button
   } from "reactstrap";
 
-const Profile = () => {
+const Profile = ({getElapsedTime}) => {
     const {currentUser} = useContext(UserContext);
     const {username} = useParams()
     const navigate = useNavigate();
@@ -155,6 +155,7 @@ const Profile = () => {
                                         <CardText>
                                             <p>Rating: {review.rating}/5</p>
                                             <p>Review body: {review.body}</p>
+                                            <p>Posted: {getElapsedTime(review.createdAt)}</p>
                                             <Link to={`/reviews/${review.id}`}>Read more</Link>
                                         </CardText>
                                     </Col>

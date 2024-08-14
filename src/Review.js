@@ -19,24 +19,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
-const getElapsedTime = (dateString) => {
-    const now = new Date();
-    const posted = new Date(dateString);
-    const elapsed = now - posted;
-    console.log(elapsed)
-    const hours = Math.floor(elapsed / (1000 * 60 * 60));
-    const days = Math.floor(hours / 24);
 
-    if (days > 0) {
-        return `${days} day${days > 1 ? 's' : ''} ago`;
-    } else if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    } else {
-        return 'Just now';
-    }
-};
 
-const Review = () =>{
+const Review = ({getElapsedTime}) =>{
     const {reviewId} = useParams();
     const {currentUser} = useContext(UserContext);
     const navigate = useNavigate();
@@ -134,6 +119,7 @@ return(
                     <CardText>
                         <p>{review.rating}/5</p>
                         <p>{review.body}</p>
+                        <p>Posted: {getElapsedTime(review.created_at)}</p>
                     </CardText>
                     <LikeButton 
                             reviewId={review.id} 

@@ -17,7 +17,7 @@ import {
     Button
   } from "reactstrap";
 
-const Feed = () => {
+const Feed = ({getElapsedTime}) => {
     const {currentUser} = useContext(UserContext);
     const [feed, setFeed] = useState([]);
     const [likeCounts, setLikeCounts] = useState({});
@@ -113,6 +113,7 @@ const Feed = () => {
                                 </Link>
                                 <p>Rating: {review.rating}/5</p>
                                 <p>{review.body.substring(0,250)}...</p>
+                                <p>Posted: {getElapsedTime(review.created_at)}</p>
                                 <Link to={`/reviews/${review.id}`}>Read more</Link>
                             </CardText> 
                              
