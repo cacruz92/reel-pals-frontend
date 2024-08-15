@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css';
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import Home from "./Home";

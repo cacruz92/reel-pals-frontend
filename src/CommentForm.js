@@ -67,6 +67,7 @@ const CommentForm = ({reviewId, onCommentAdded}) => {
                         <Input 
                         type="textarea"
                         name="comment"
+                        id="comment"
                         value={comment}
                         onChange={handleChange}
                         />                      

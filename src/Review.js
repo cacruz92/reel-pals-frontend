@@ -4,7 +4,7 @@ import OmdbApi from "./api";
 import CommentForm from "./CommentForm";
 import LikeButton from "./LikeButton";
 import {UserContext} from "./UserContext";
-import "./Review.css"
+import "./styles/Review.css"
 import {
     Card,
     CardBody,

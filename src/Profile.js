@@ -3,7 +3,7 @@ import { useParams, NavLink, Link, useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
-import "./Profile.css"
+import "./styles/Profile.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import {

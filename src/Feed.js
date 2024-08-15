@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import LikeButton from "./LikeButton";
 import OmdbApi from "./api";
 import {UserContext} from "./UserContext";
-import "./Feed.css";
+import "./styles/Feed.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import {

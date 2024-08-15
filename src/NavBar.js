@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import {UserContext} from "./UserContext";
 import { NavLink} from 'react-router-dom';
 import {Navbar, Nav, NavItem, Container} from "reactstrap";
-import "./NavBar.css"
+import "./styles/NavBar.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 

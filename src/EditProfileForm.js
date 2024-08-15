@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, FormGroup, Label, Input, Button, Container, Card, CardBody, Alert } from 'reactstrap';
 import OmdbApi from './api';
-import './EditProfileForm.css';
+import './styles/EditProfileForm.css';
 
 const EditProfileForm = () => {
     const { username } = useParams();

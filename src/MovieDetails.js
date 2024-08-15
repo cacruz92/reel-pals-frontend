@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useParams, Link } from "react-router-dom";
 import OmdbApi from "./api";
 import ReviewForm from "./ReviewForm";
-import "./MovieDetails.css"
+import "./styles/MovieDetails.css"
 import {
     Card,
     CardBody,

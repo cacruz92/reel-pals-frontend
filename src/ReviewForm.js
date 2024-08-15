@@ -2,7 +2,7 @@ import React, {useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import OmdbApi from "./api";
 import { FaStar } from "react-icons/fa";
-import "./ReviewForm.css";
+import "./styles/ReviewForm.css";
 import {UserContext} from "./UserContext"
 import {
     Card,

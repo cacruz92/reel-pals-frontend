@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import OmdbApi from "./api";
-import "./Search.css"
+import "./styles/Search.css"
 import {
   Card,
   CardBody,
