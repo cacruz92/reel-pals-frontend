@@ -84,7 +84,7 @@ const Feed = ({getElapsedTime}) => {
                             </CardTitle>
                             <CardText>
                                 <p>Your feed is currently empty. Visit the explore page to find movies to view and rate or users to follow!</p>
-                                <Link to="/explore">
+                                <Link to="/search">
                                     <Button color="primary">Explore</Button>
                                 </Link>
                             </CardText>
