@@ -16,7 +16,6 @@ const AUTH_BASE_URL = process.env.REACT_APP_AUTH_BASE_URL || "http://localhost:3
 
 class OmdbApi {
   static async omdbRequest(params = {}) {
-    console.debug("Omdb API Call:", params);
 
     params = {...params, apikey: API_KEY};
 
@@ -30,7 +29,7 @@ class OmdbApi {
   }
 
   static async authRequest(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
+
 
     const url = `${AUTH_BASE_URL}${endpoint}`;
     const headers = {};
@@ -51,28 +50,6 @@ class OmdbApi {
       let message = e.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
-
-    // console.debug("Auth API Call:", endpoint, data, method);
-
-    // const url = `${AUTH_BASE_URL}${endpoint}`;
-    // const token = localStorage.getItem('token');
-    // const headers = { Authorization: `Bearer ${token}`};
-
-    // try {
-    //   const response = await axios({
-    //     url,
-    //     method,
-    //     data,
-    //     headers
-    //   });
-
-    //   return response.data;
-
-    // } catch (e) {
-    //   console.error("Auth API Error:", e.response);
-    //   let message = e.response.data.Error || "An error occurred";
-    //   throw Array.isArray(message) ? message : [message];
-    // }
   }
 
 
