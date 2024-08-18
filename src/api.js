@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 const BASE_URL = "http://www.omdbapi.com/";
 const API_KEY = "3ceade25";
-const AUTH_BASE_URL = process.env.REACT_APP_AUTH_BASE_URL;
+const AUTH_BASE_URL = "https://reel-pals-backend.onrender.com/"
 
 
 /** API Class.
